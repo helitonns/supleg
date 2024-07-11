@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link>Modelo Roteiro</p:link>
+        </li>
+        <li> <i class="pi pi-angle-right"/> </li>
+        <li>
+            <p:link outcome="/pages/user/abertura">Abertura</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Fechamento</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="field col-12 md:col-6 md:col-offset-3">
+                                <p:outputLabel for="@next" value="Nome" />
+                                <p:inputText value="#{aberturaController.abertura.nome}" converter="upper" required="true" requiredMessage="Campo Nome obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-6 md:col-offset-3">
+                                <p:outputLabel for="@next" value="Status" />
+                                <p:selectOneButton value="#{aberturaController.abertura.status}">
+                                    <f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </div>
+                            <div class="field col-12 md:col-5 md:col-offset-3">
+                                <p:outputLabel for="@next" value="Trecho" />
+                                <!--<p:inputText id="idTrecho" value="# {aberturaController.trecho.texto}" converter="upper"/>-->
+                                <p:textEditor id="idTrecho" value="#{aberturaController.trecho.texto}"/>
+                            </div>
+                            <div class="col-12 md:col-1 mt-5 ">
+                                <p:tooltip for="@next" value="Adicionar trecho"/>
+                                <p:commandButton value="Adicionar" action="#{aberturaController.adicionarTrecho()}" update="idTrecho idTrechos" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-plus"/>
+                            </div>
+                            <div class="col-6 md:col-offset-3 mt-5 ">
+                                <p:dataTable id="idTrechos" var="trecho_var" value="#{aberturaController.trechos}" reflow="true" rowKey="#{tipoMateria_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Texto" styleClass="text-center">
+                                        <h:outputText value="#{trecho_var.texto}" escape="false"/>
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-5rem">
+                                        <p:commandButton id="btn-excluir" action="#{aberturaController.removerTrecho()}" update="idTrechos" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                            <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                            <f:setPropertyActionListener value="#{trecho_var}" target="#{aberturaController.trecho}"/>
+                                            <p:tooltip value="Excluir" for="btn-excluir" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                    <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                </p:confirmDialog>
+                            </div>
+                            
+                            <div class="col-12 md:col-3 mt-5 md:col-offset-3">
+                                <p:commandButton value="Salvar" action="#{aberturaController.salvar()}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-3 mt-5">
+                                <p:commandButton value="Cancelar" action="#{aberturaController.cancelar()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+        <h:form>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Fechamentos cadastrados</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="abertura_var" value="#{aberturaController.aberturas}" reflow="true" rowKey="#{tipoMateria_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-3rem">
+                                        <h:outputText value="#{abertura_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Nome" styleClass="min-w-max">
+                                        <h:outputText value="#{abertura_var.nome}" />
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{abertura_var.status ? 'Ativo' : 'Inativo'}" />
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-10rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-editar" styleClass="rounded-button" icon="pi pi-pencil" ajax="true" update="form" >
+                                                    <f:setPropertyActionListener value="#{abertura_var}" target="#{aberturaController.abertura}"/>
+                                                    <f:setPropertyActionListener value="#{abertura_var.trechos}" target="#{aberturaController.trechos}"/>
+                                                    <p:tooltip value="Editar" for="btn-editar" />
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-excluir" action="#{aberturaController.excluir()}" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                                    <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                                    <f:setPropertyActionListener value="#{abertura_var}" target="#{aberturaController.abertura}"/>
+                                                    <p:tooltip value="Excluir" for="btn-excluir" />
+                                                </p:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,52 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/common/perfil">Perfil</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="growl" showDetail="false" globalOnly="true" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Perfil</h5>
+                        <div class="ui-fluid formgrid grid">
+
+                            <!-- MENSAGENS PRIMEIRA LINHA -->
+                            <div class="col-12 md:col-4">
+                                <p:message for="idNomeUsuario" showSummary="true" showDetail="false"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="idMatriculaUsuario" showSummary="true" showDetail="false"/>
+                            </div>
+                            <div class="col-12 md:col-4"/>
+
+                            <!-- PRIMEIRA LINHA -->
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Nome completo do usuário" />
+                                <p:inputText id="idNomeUsuario" value="#{startController.usuario.nome}" converter="upper" required="true" requiredMessage="Campo obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Matrícula do usuário" />
+                                <p:inputText id="idMatriculaUsuario" value="#{startController.usuario.matricula}" required="true" requiredMessage="Campo obrigatório!"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:commandButton value="Salvar"  action="#{startController.salvarNomeMatricula}" ajax="false" icon="ui-icon-check" styleClass="mt-5"/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

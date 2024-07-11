@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link>Mesa Diretora</p:link>
+        </li>
+        <li> <i class="pi pi-angle-right"/> </li>
+        <li>
+            <p:link outcome="/pages/user/sessaoLegislativa">Sessão Legislativa</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Sessão Legislativa</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="field col-12 md:col-2">
+                                <p:outputLabel for="@next" value="Sessão" />
+                                <p:inputNumber value="#{sessaoLegislativaController.sessaoLegislativa.sessaoLegislativa}" required="true" requiredMessage="Campo Sessão obrigatório!">
+                                    <f:convertNumber />
+                                </p:inputNumber>
+                            </div>
+                            <div class="field col-12 md:col-2">
+                                <p:outputLabel for="@next" value="Legislatura" />
+                                <p:inputNumber value="#{sessaoLegislativaController.sessaoLegislativa.legislatura}" required="true" requiredMessage="Campo Legislatura obrigatório!">
+                                    <f:convertNumber />
+                                </p:inputNumber>
+                            </div>
+                            <div class="field col-12 md:col-2">
+                                <p:outputLabel for="@next" value="Status" />
+                                <p:selectOneButton value="#{sessaoLegislativaController.sessaoLegislativa.status}">
+                                    <f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </div>
+                            <div class="col-12 md:col-3 mt-5">
+                                <p:commandButton value="Salvar" action="#{sessaoLegislativaController.salvar()}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-3 mt-5">
+                                <p:commandButton value="Cancelar" action="#{sessaoLegislativaController.cancelar()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>   
+        <h:form>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Sessões Legislativas cadastradas</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="sl_var" value="#{sessaoLegislativaController.sessoesLegislativas}" reflow="true" rowKey="#{sl_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-3rem">
+                                        <h:outputText value="#{sl_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Sessão Legislativa" styleClass="min-w-max">
+                                        <h:outputText value="#{sl_var.sessaoLegislativa}" />
+                                    </p:column>
+                                    <p:column headerText="Legislatura" styleClass="min-w-max">
+                                        <h:outputText value="#{sl_var.legislatura}" />
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{sl_var.status ? 'Ativa' : 'Inativa'}" />
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-10rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-editar" styleClass="rounded-button" icon="pi pi-pencil" ajax="true" update="form" >
+                                                    <f:setPropertyActionListener value="#{sl_var}" target="#{sessaoLegislativaController.sessaoLegislativa}"/>
+                                                    <p:tooltip value="Editar" for="btn-editar" />
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-excluir" action="#{sessaoLegislativaController.excluir()}" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                                    <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                                    <f:setPropertyActionListener value="#{sl_var}" target="#{sessaoLegislativaController.sessaoLegislativa}"/>
+                                                    <p:tooltip value="Excluir" for="btn-excluir" />
+                                                </p:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

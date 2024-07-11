@@ -1,0 +1,48 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sm="http://primefaces.org/sapphire">
+
+    <div id="layout-menu-container" class="layout-menu-container">
+        <div class="layout-menu-wrapper">
+            <h:form id="menuform">
+                
+                <sm:menu widgetVar="sapphireMenuWidget">
+                    <p:menuitem value="Roteiro" icon="pi pi-calendar" outcome="/pages/common/roteiro"/>
+                    
+                    <p:submenu label="Mesa Diretora" icon="pi pi-globe" rendered="#{startController.admin || startController.superAdmin}">
+                        <p:menuitem value="Sessão Legislativa" icon="pi pi-clock" outcome="/pages/user/sessaoLegislativa"/>
+                        <p:menuitem value="Parlamentar" icon="pi pi-user" outcome="/pages/user/parlamentar"/>
+                        <p:menuitem value="Mesa Diretora" icon="pi pi-globe" outcome="/pages/user/modelo-mesa"/>
+                    </p:submenu>
+                    
+                    <p:submenu label="Matéria Legislativa" icon="pi pi-map" rendered="#{startController.operador || startController.admin || startController.superAdmin}">
+                        <p:menuitem value="Tipo Autor" icon="pi pi-user" outcome="/pages/user/tipoAutor"/>
+                        <p:menuitem value="Tipo Matéria" icon="pi pi-folder-open" outcome="/pages/user/tipoMateria"/>
+                        <p:menuitem value="Status Matéria" icon="pi pi-bars" outcome="/pages/user/statusMateria"/>
+                        <p:menuitem value="Status Tramitação" icon="pi pi-sync" outcome="/pages/user/statusTramitacao"/>
+                        <p:menuitem value="Parecer Procuradoria" icon="pi pi-file-edit" outcome="/pages/user/parecerProcuradoria"/>
+                        <p:menuitem value="Roteiro da Matéria" icon="pi pi-book" outcome="/pages/user/roteiroMateria"/>
+                    </p:submenu>
+                    
+                    <p:submenu label="Modelo Roteiro" icon="pi pi-list" rendered="#{startController.operador || startController.admin || startController.superAdmin}">
+                        <p:menuitem value="Abertura" icon="pi pi-sort-alpha-up" outcome="/pages/user/abertura"/>
+                        <p:menuitem value="Fechamento" icon="pi pi-sort-alpha-up-alt" outcome="/pages/user/fechamento"/>
+                        <p:menuitem value="Modelo Roteiro" icon="pi pi-book" outcome="/pages/user/modelo-roteiro"/>
+                    </p:submenu>
+                    
+                    <p:submenu label="Usuários" icon="pi pi-user" rendered="#{startController.admin || startController.superAdmin}">
+                        <p:menuitem value="Usuários" icon="pi pi-fw pi-users" outcome="/pages/admin/usuario" />
+                        <p:menuitem value="Super Usuários" icon="pi pi-fw pi-users" outcome="/pages/superadmin/superusuario" rendered="#{startController.superAdmin}"/>
+                    </p:submenu>
+                    
+                    <p:menuitem value="Log" icon="pi pi-desktop" outcome="/pages/superadmin/log" rendered="#{startController.superAdmin}"/>
+                </sm:menu>
+            </h:form>
+        </div>
+    </div>
+
+</ui:composition>

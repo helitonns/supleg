@@ -1,0 +1,772 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/common/roteiro">Roteiro</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <style>
+            body .ui-selectonemenu {
+                border: none;
+            }
+
+            .ui-selectonemenu .ui-selectonemenu-label {
+                font-weight: bold;
+                font-size: 1.5rem;
+            }
+
+            .esconderCard {
+            }
+
+            @media(max-width: 575px){
+                .esconderCard {
+                    visibility: hidden;
+                    position: absolute;
+                }
+
+            }
+
+            @media(max-width: 768px){
+                .ui-selectonemenu .ui-selectonemenu-label {
+                    font-size: 1rem;
+                }
+            }
+            
+            .borderComboBox {
+                border: 1px #004466 solid !important;
+                border-radius: 5px;
+            }
+            
+            .borderComboBox > .ui-selectonemenu .ui-selectonemenu-label{
+                font-weight: normal !important;
+                font-size: 1rem !important;
+            }
+        </style>
+
+        <h:form id="form">
+            <p:importEnum type="br.leg.rr.al.supleg.enums.TurnoVotacao" var="TurnoVotacao" allSuffix="ALL_ENUM_VALUES"/>
+            <p:importEnum type="br.leg.rr.al.supleg.enums.TipoMateriaPesquisa" var="TipoMateriaPesquisa" allSuffix="ALL_ENUM_VALUES"/>
+            <p:growl id="growl" showDetail="false" />
+            <div id="_1" class="grid">
+                <div id="_2" class="col-12">
+                    <div id="_3" class="card">
+                        <div id="_4" class="ui-fluid formgrid grid">
+                            <div id="_5" class="col-12">
+                                <!--################# CARD MESA DIRETORA #################-->
+                                <p:card id="_6" class="esconderCard">
+                                    <div id="abertura"></div>
+                                    <div class="grid text-center font-bold">
+                                        <div id="teste" class="col-12  esconderCard">
+                                            <div class="text-center font-bold lg:text-5xl md:text-4xl">
+                                                <h:outputText value="ROTEIRO" styleClass="block"/>
+                                                <h:outputText value="DE" styleClass="block"/>
+                                                <h:outputText value="#{exibirRoteiroController.roteiro.dataSessao}" styleClass="block text-red-500 ">
+                                                    <f:convertDateTime type="localDate" locale="pt-BR" dateStyle="long"  />
+                                                </h:outputText>
+                                                <h:outputText value="Art. 136, II, do Regimento Interno" styleClass="block"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="lg:col-12 md:col-12 sm:col-12 lg:text-5xl md:text-4xl mt-6  esconderCard">
+                                            <h:outputText value="MESA DIRETORA" styleClass="block text-red-500"/>
+                                        </div>
+
+                                        <div class="lg:col-12 md:col-12 sm:col-12 border-solid border-1 mt-2  esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.presidente.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="PRESIDENTE" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="lg:col-4 md:col-4 sm:col-12 border-solid border-1 md:border-top-none  esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.vicePresidente1.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="1º VICE-PRESIDENTE" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                        <div class="lg:col-4 md:col-4 sm:col-12 border-solid border-1 border-top-none md:border-left-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.vicePresidente2.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="2º VICE-PRESIDENTE" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                        <div class="lg:col-4 md:col-4 sm:col-12 border-solid border-1 border-top-none md:border-left-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.vicePresidente3.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="3º VICE-PRESIDENTE" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="lg:col-3 md:col-3 sm:col-12 border-solid border-1 md:border-top-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.secretario1.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="1º SECRETÁRIO" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                        <div class="lg:col-3 md:col-3 sm:col-12 border-solid border-1 border-top-none md:border-left-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.secretario2.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="2º SECRETÁRIO" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                        <div class="lg:col-3 md:col-3 sm:col-12 border-solid border-1 border-top-none md:border-left-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.secretario3.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="3º SECRETÁRIO" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                        <div class="lg:col-3 md:col-3 sm:col-12 border-solid border-1 border-top-none md:border-left-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.secretario4.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="4º SECRETÁRIO" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="lg:col-12 md:col-12 sm:col-12 border-solid border-1 md:border-top-none esconderCard">
+                                            <div class="mt-3 mb-3">
+                                                <h:outputText value="#{exibirRoteiroController.mesa.corregedor.nome}" styleClass="block lg:text-3xl md:text-2xl"/>
+                                                <h:outputText value="CORREGEDOR GERAL" styleClass="block text-blue-700 lg:text-xl md:text-lg"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </p:card>
+                                <!--################# CARD MESA DIRETORA #################-->
+                            </div>
+                        </div>
+                        
+                        <!--################# CARD ABERTURA #################-->
+                        <p:card styleClass="mt-4">
+                            <div class="lg:col-12 md:col-12">
+                                <div class="text-center font-bold bg-black-alpha-10 pt-4 pb-4">
+                                    <h:outputText value="#{exibirRoteiroController.roteiro.nome}" styleClass="uppercase lg:text-5xl md:text-3xl" rendered="#{!exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <h:outputText value="#{exibirRoteiroController.roteiro.nomeParte1} " styleClass="uppercase lg:text-5xl md:text-3xl text-red-500" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <h:outputText value="#{exibirRoteiroController.roteiro.nomeParte2} DA" styleClass="uppercase lg:text-5xl md:text-3xl" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <br/>
+                                    <h:outputText value="#{exibirRoteiroController.sessaoLegislativa.sessaoLegislativa}ª " styleClass="text-red-500 lg:text-5xl md:text-3xl" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <h:outputText value="SESSÃO LEGISLATIVA ORDINÁRIA DA" styleClass="lg:text-5xl md:text-3xl" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <br/>
+                                    <h:outputText value="#{exibirRoteiroController.sessaoLegislativa.legislatura}ª " styleClass="lg:text-5xl md:text-3xl text-red-500" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <h:outputText value="LEGISLATURA, EM " styleClass="lg:text-5xl md:text-3xl" rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}"/>
+                                    <h:outputText value="#{exibirRoteiroController.roteiro.dataSessao}" styleClass="lg:text-5xl md:text-3xl text-red-500 " rendered="#{exibirRoteiroController.roteiro.possuiNumeroNoTitulo}">
+                                        <f:convertDateTime type="localDate" locale="pt-BR" dateStyle="long"  />
+                                    </h:outputText>
+                                </div>
+                            </div>
+                            <div class="lg:col-12 md:col-12">
+                                <div class="text-center">
+                                    <ui:repeat value="#{exibirRoteiroController.roteiro.modeloRoteiro.abertura.trechos}" var="_trecho" rendered="#{exibirRoteiroController.roteiro.modeloRoteiro.abertura != null}">
+                                        <h:outputText value="#{_trecho.texto}" escape="false" styleClass="md:text-4xl sm:text-2xl  mt-7 block"/>
+                                    </ui:repeat>
+                                </div>
+                            </div>
+                        </p:card>
+                        <!--################# CARD ABERTURA #################-->
+
+                        <div id="ordem-dia"></div>
+                        
+                        <!--################# CARD ORDEM DO DIA #################-->
+                        <p:card id="ordem-dia" styleClass="mt-4" rendered="#{exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}">
+                            <div class="lg:col-12 md:col-12 pl-0 pr-0">
+                                <div class="text-center font-bold bg-black-alpha-10 pt-4 pb-4 pl-0 pr-0">
+                                    <h:outputText value="ORDEM DO DIA " styleClass="uppercase lg:text-5xl md:text-3xl"/>
+                                    <h:outputText value="#{exibirRoteiroController.roteiro.dataSessao}" styleClass="lg:text-5xl md:text-3xl text-red-500 ">
+                                        <f:convertDateTime type="localDate" locale="pt-BR" dateStyle="long"  />
+                                    </h:outputText>
+                                </div>
+                            </div>
+                            
+                            <!--################# ORDENS EM 2 TURNO #################-->
+                            <div class="w-full text-center mt-3 mb-3">
+                                <h:outputText value="VOTAÇÃO EM 2º TURNO" styleClass="uppercase underline font-bold lg:text-5xl md:text-3xl" style="background-color: yellow" rendered="#{exibirRoteiroController.ordensVotacao2Turno.size() > 0}"/>
+                            </div>
+                            <ui:repeat value="#{exibirRoteiroController.ordensVotacao2Turno}" var="_ordem2Turno">
+                                <div class="lg:col-12 md:col-12 border-solid border-1 bg-green-100 flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h:outputText value="ITEM #{_ordem2Turno.ordemCompleta}" styleClass="lg:text-4xl md:text-2xl font-bold text-red-500"/>
+                                        <h:outputText value=": #{_ordem2Turno.nomeMateria}" escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                        <div class="flex gap-1">
+                                            <h:outputText value="AUTORIA: #{_ordem2Turno.nomeAutor}" styleClass="lg:text-4xl md:text-2xl font-bold text-blue-600"/>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <ui:repeat value="#{_ordem2Turno.etiquetas}" var="_etiqueta">
+                                            <p:chip label="#{_etiqueta.texto}"  styleClass="mr-2 text-white #{_etiqueta.cor}"/>
+                                        </ui:repeat>
+                                        <p:linkButton href="https://sapl.al.rr.leg.br/materia/#{_ordem2Turno.idMateria}" target="_blank" icon="pi pi-external-link" styleClass="ui-button-outlined ui-button-success" value="Abrir Matéria" />
+                                    </div>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordem2Turno.turnoVotacao}" style="background-color: #{_ordem2Turno.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um turno de votação" noSelectionOption="true" />
+                                        <f:selectItems value="#{TurnoVotacao.ALL_ENUM_VALUES}" var="_turnoVotacao" itemLabel="#{_turnoVotacao.descricao}" itemValue="#{_turnoVotacao}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('TURNO VOTACAO')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordem2Turno.statusMateria}" converter="entityConverter" style="background-color: #{_ordem2Turno.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                        <f:selectItems value="#{exibirRoteiroController.statusMaterias}" var="_statusMateria" itemLabel="#{_statusMateria.nome}" itemValue="#{_statusMateria}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS MATERIA')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="EMENTA: " escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                    <h:outputText value="#{_ordem2Turno.ementa}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="SITUAÇÃO ATUAL: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordem2Turno.statusTramitacao}" converter="entityConverter" style="background-color: #{_ordem2Turno.statusTramitacao.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.statusTramitacoes}" var="_statusTramitacao" itemLabel="#{_statusTramitacao.nome}" itemValue="#{_statusTramitacao}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS TRMITACAO')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="PARECER DA PROCURADORIA: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordem2Turno.parecerProcuradoria}" converter="entityConverter" style="background-color: #{_ordem2Turno.parecerProcuradoria.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.pareceres}" var="_parecer" itemLabel="#{_parecer.nome}" itemValue="#{_parecer}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('PARECER PROCURADORIA')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="#{_ordem2Turno.roteiroMateria.getTexto(_ordem2Turno.materia)}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                </div>
+                                <br/>
+                                <br/>
+                            </ui:repeat>
+                            
+                            <!--################# ORDENS EM 1 TURNO #################-->
+                            <div class="w-full text-center mt-3 mb-3">
+                                <h:outputText value="VOTAÇÃO EM 1º TURNO" styleClass="uppercase underline font-bold lg:text-5xl md:text-3xl" style="background-color: yellow" rendered="#{exibirRoteiroController.ordensVotacao1Turno.size() > 0}"/>
+                            </div>
+                            <ui:repeat value="#{exibirRoteiroController.ordensVotacao1Turno}" var="_ordem1Turno">
+                                <div class="lg:col-12 md:col-12 border-solid border-1 bg-green-100 flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h:outputText value="ITEM #{_ordem1Turno.ordemCompleta}" styleClass="lg:text-4xl md:text-2xl font-bold text-red-500"/>
+                                        <h:outputText value=": #{_ordem1Turno.nomeMateria}" escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                        <div class="flex gap-1">
+                                            <h:outputText value="AUTORIA: #{_ordem1Turno.nomeAutor}" styleClass="lg:text-4xl md:text-2xl font-bold text-blue-600"/>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <ui:repeat value="#{_ordem1Turno.etiquetas}" var="_etiqueta">
+                                            <p:chip label="#{_etiqueta.texto}"  styleClass="mr-2 text-white #{_etiqueta.cor}"/>
+                                        </ui:repeat>
+                                        <p:linkButton href="https://sapl.al.rr.leg.br/materia/#{_ordem1Turno.idMateria}" target="_blank" icon="pi pi-external-link" styleClass="ui-button-outlined ui-button-success" value="Abrir Matéria" />
+                                    </div>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordem1Turno.turnoVotacao}" style="background-color: #{_ordem1Turno.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um turno de votação" noSelectionOption="true" />
+                                        <f:selectItems value="#{TurnoVotacao.ALL_ENUM_VALUES}" var="_turnoVotacao" itemLabel="#{_turnoVotacao.descricao}" itemValue="#{_turnoVotacao}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('TURNO VOTACAO')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordem1Turno.statusMateria}" converter="entityConverter" style="background-color: #{_ordem1Turno.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                        <f:selectItems value="#{exibirRoteiroController.statusMaterias}" var="_statusMateria" itemLabel="#{_statusMateria.nome}" itemValue="#{_statusMateria}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS MATERIA')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="EMENTA: " escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                    <h:outputText value="#{_ordem1Turno.ementa}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="SITUAÇÃO ATUAL: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordem1Turno.statusTramitacao}" converter="entityConverter" style="background-color: #{_ordem1Turno.statusTramitacao.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.statusTramitacoes}" var="_statusTramitacao" itemLabel="#{_statusTramitacao.nome}" itemValue="#{_statusTramitacao}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS TRMITACAO')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="PARECER DA PROCURADORIA: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordem1Turno.parecerProcuradoria}" converter="entityConverter" style="background-color: #{_ordem1Turno.parecerProcuradoria.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.pareceres}" var="_parecer" itemLabel="#{_parecer.nome}" itemValue="#{_parecer}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('PARECER PROCURADORIA')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="#{_ordem1Turno.roteiroMateria.getTexto(_ordem1Turno.materia)}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                </div>
+                                <br/>
+                                <br/>
+                            </ui:repeat>
+                            
+                            <!--################# ORDENS EM TURNO UNICO #################-->
+                            <div class="w-full text-center mt-3 mb-3">
+                                <h:outputText value="VOTAÇÃO EM TURNO ÚNICO" styleClass="uppercase underline font-bold lg:text-5xl md:text-3xl" style="background-color: yellow" rendered="#{exibirRoteiroController.ordensVotacaoTurnoUnico.size() > 0}"/>
+                            </div>
+                            <ui:repeat value="#{exibirRoteiroController.ordensVotacaoTurnoUnico}" var="_ordemTurnoUnico">
+                                <div class="lg:col-12 md:col-12 border-solid border-1 bg-green-100 flex flex-wrap justify-content-between align-items-center">
+                                    <div>
+                                        <h:outputText value="ITEM #{_ordemTurnoUnico.ordemCompleta}" styleClass="lg:text-4xl md:text-2xl font-bold text-red-500"/>
+                                        <h:outputText value=": #{_ordemTurnoUnico.nomeMateria}" escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                        <div class="flex gap-1">
+                                            <h:outputText value="AUTORIA: #{_ordemTurnoUnico.nomeAutor}" styleClass="lg:text-4xl md:text-2xl font-bold text-blue-600"/>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <ui:repeat value="#{_ordemTurnoUnico.etiquetas}" var="_etiqueta">
+                                            <p:chip label="#{_etiqueta.texto}"  styleClass="mr-2 text-white #{_etiqueta.cor}"/>
+                                        </ui:repeat>
+                                        <p:linkButton href="https://sapl.al.rr.leg.br/materia/#{_ordemTurnoUnico.idMateria}" target="_blank" icon="pi pi-external-link" styleClass="ui-button-outlined ui-button-success" value="Abrir Matéria" />
+                                    </div>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordemTurnoUnico.turnoVotacao}" style="background-color: #{_ordemTurnoUnico.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um turno de votação" noSelectionOption="true" />
+                                        <f:selectItems value="#{TurnoVotacao.ALL_ENUM_VALUES}" var="_turnoVotacao" itemLabel="#{_turnoVotacao.descricao}" itemValue="#{_turnoVotacao}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('TURNO VOTACAO')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none lg:text-2xl md:text-base">
+                                    <p:selectOneMenu value="#{_ordemTurnoUnico.statusMateria}" converter="entityConverter" style="background-color: #{_ordemTurnoUnico.statusMateria.background}">
+                                        <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                        <f:selectItems value="#{exibirRoteiroController.statusMaterias}" var="_statusMateria" itemLabel="#{_statusMateria.nome}" itemValue="#{_statusMateria}" />
+                                        <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS MATERIA')}" />
+                                    </p:selectOneMenu>
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="EMENTA: " escape="false" styleClass="lg:text-4xl md:text-2xl font-bold"/>
+                                    <h:outputText value="#{_ordemTurnoUnico.ementa}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                    
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="SITUAÇÃO ATUAL: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordemTurnoUnico.statusTramitacao}" converter="entityConverter" style="background-color: #{_ordemTurnoUnico.statusTramitacao.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.statusTramitacoes}" var="_statusTramitacao" itemLabel="#{_statusTramitacao.nome}" itemValue="#{_statusTramitacao}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('STATUS TRMITACAO')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                    
+                                    <div class="flex flex-wrap align-items-center mt-1 mb-1 gap-1">
+                                        <h:outputText value="PARECER DA PROCURADORIA: " escape="false" styleClass="lg:text-4xl md:text-2xl block font-bold"/>
+                                        <p:selectOneMenu value="#{_ordemTurnoUnico.parecerProcuradoria}" converter="entityConverter" style="background-color: #{_ordemTurnoUnico.parecerProcuradoria.background}">
+                                            <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                            <f:selectItems value="#{exibirRoteiroController.pareceres}" var="_parecer" itemLabel="#{_parecer.nome}" itemValue="#{_parecer}" />
+                                            <p:ajax update="@form" listener="#{exibirRoteiroController.salvarRoteiro('PARECER PROCURADORIA')}" />
+                                        </p:selectOneMenu>
+                                    </div>
+                                    
+                                </div>
+                                <div class="lg:col-12 md:col-12 border-solid border-1 border-top-none">
+                                    <h:outputText value="#{_ordemTurnoUnico.roteiroMateria.getTexto(_ordemTurnoUnico.materia)}" escape="false" styleClass="lg:text-4xl md:text-2xl "/>
+                                </div>
+                                <br/>
+                                <br/>
+                            </ui:repeat>
+                            <!--################# CARD ORDEM DO DIA #################-->
+                        </p:card>
+                        
+                        <p:card>
+                            <div id="fechamento"></div>
+                            <!--################# CARD FECHAMENTO #################-->
+                            <div class="lg:col-12 md:col-12 p-0">
+                                <ui:repeat value="#{exibirRoteiroController.roteiro.modeloRoteiro.fechamento.trechos}" var="_trecho">
+                                    <div class="text-center p-4 mb-4 m-auto" style="background-color: #{_trecho.corDeFundo}">
+                                        <h:outputText value="#{_trecho.texto}" escape="false" styleClass="lg:text-4xl md:text-2xl block"/>
+                                    </div>
+                                </ui:repeat>
+                            </div>
+                            <!--################# CARD FECHAMENTO #################-->
+                        </p:card>
+                    </div>
+                </div>
+            </div>
+            
+            <!--################# CARD FLUTUANTES #################-->
+
+            <div id="card1" class="cardFlutuante1 flex flex-column justify-content-around align-content-between align-items-center" style="visibility: #{startController.operador ? 'hidden' : ''}">
+                <div>
+                    <p:tooltip for="@next" value="Início" position="left"/>
+                    <p:linkButton href="#abertura" icon="pi pi-chevron-up" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Ordem do dia" position="left"/>
+                    <p:linkButton href="#ordem-dia" icon="pi pi-bars" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Fim" position="left"/>
+                    <p:linkButton href="#fechamento" icon="pi pi-chevron-down" styleClass="rounded-button"/>
+                </div>
+                
+                <p:divider styleClass="col-6 mt-1 mb-1" />
+                
+                <div>
+                    <p:tooltip for="@next" value="Adicionar Matéria" position="left"/>
+                    <p:commandButton action="#{exibirRoteiroController.setExibirDialogoOrdem(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem"  icon="pi pi-plus" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Editar Matéria" position="left"/>
+                    <p:commandButton action="#{exibirRoteiroController.setExibirDialogoOrdemEdicao(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem-edicao"  icon="pi pi-pencil" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Adicionar Etiqueta" position="left"/>
+                    <p:commandButton action="#{exibirRoteiroController.setExibirDialogoAdicionarEtiqueta(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-adicionar-etiqueta"  icon="pi pi-bookmark" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Atualizar Roteiros" position="left"/>
+                    <p:commandButton action="#{exibirRoteiroController.atualizarRoteirosWebSocket()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem"  icon="pi pi-refresh" styleClass="rounded-button"/>
+                </div>
+                <div>
+                    <p:commandButton rendered="#{!exibirRoteiroController.roteiro.roteiroPresidenteRevisado}" action="#{exibirRoteiroController.revisarRoteiro()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" icon="pi pi-check" styleClass="ui-button-warning rounded-button">
+                        <p:tooltip for="@parent" value="Roteiro Não Revisado" position="left"/>
+                    </p:commandButton>
+                    <p:commandButton rendered="#{exibirRoteiroController.roteiro.roteiroPresidenteRevisado}" action="#{exibirRoteiroController.revisarRoteiro()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" icon="pi pi-check" styleClass="ui-button-success rounded-button">
+                        <p:tooltip for="@parent" value="Roteiro Revisado" position="left"/>
+                    </p:commandButton>
+                </div>
+                <div>
+                    <p:tooltip for="@next" value="Remover Matéria" position="left"/>
+                    <p:commandButton action="#{exibirRoteiroController.setExibirDialogoRemoverOrdem(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-remover-ordem"  icon="pi pi-trash" styleClass="rounded-button ui-button-danger"/>
+                </div>
+            </div>
+
+            <div class="centro-base flex justify-content-center" style="visibility: #{startController.operador ? 'hidden' : ''}">
+                <div id="card2" class="cardFlutuante2 flex flex-wrap w-full gap-1 justify-content-evenly align-items-center">
+                    <div>
+                        <p:tooltip for="@next" value="Início" position="top"/>
+                        <p:linkButton href="#abertura" icon="pi pi-chevron-left" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Ordem do dia" position="top"/>
+                        <p:linkButton href="#ordem-dia" icon="pi pi-bars" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Fim" position="top"/>
+                        <p:linkButton href="#fechamento" icon="pi pi-chevron-right" styleClass="rounded-button"/>
+                    </div>
+                    
+<!--                    <div >
+                        <p:divider layout="vertical" align="center"/>
+                    </div>-->
+                
+                    <div>
+                        <p:tooltip for="@next" value="Adicionar Matéria" position="top"/>
+                        <p:commandButton action="#{exibirRoteiroController.setExibirDialogoOrdem(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem"  icon="pi pi-plus" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Editar Matéria" position="top"/>
+                        <p:commandButton action="#{exibirRoteiroController.setExibirDialogoOrdemEdicao(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem-edicao"  icon="pi pi-pencil" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Adicionar Etiqueta" position="top"/>
+                        <p:commandButton action="#{exibirRoteiroController.setExibirDialogoAdicionarEtiqueta(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-adicionar-etiqueta"  icon="pi pi-bookmark" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Atualizar Roteiros" position="top"/>
+                        <p:commandButton action="#{exibirRoteiroController.atualizarRoteirosWebSocket()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-ordem"  icon="pi pi-refresh" styleClass="rounded-button"/>
+                    </div>
+                    <div>
+                        <p:commandButton rendered="#{!exibirRoteiroController.roteiro.roteiroPresidenteRevisado}" action="#{exibirRoteiroController.revisarRoteiro()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" icon="pi pi-check" styleClass="ui-button-warning rounded-button">
+                            <p:tooltip for="@parent" value="Roteiro Não Revisado" position="top"/>
+                        </p:commandButton>
+                        <p:commandButton rendered="#{exibirRoteiroController.roteiro.roteiroPresidenteRevisado}" action="#{exibirRoteiroController.revisarRoteiro()}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" icon="pi pi-check" styleClass="ui-button-success rounded-button">
+                            <p:tooltip for="@parent" value="Roteiro Revisado" position="top"/>
+                        </p:commandButton>
+                    </div>
+                    <div>
+                        <p:tooltip for="@next" value="Remover Matéria" position="top"/>
+                        <p:commandButton action="#{exibirRoteiroController.setExibirDialogoRemoverOrdem(true)}" disabled="#{!exibirRoteiroController.roteiro.modeloRoteiro.possuiOrdemDiaBoolean}" update="form-remover-ordem"  icon="pi pi-trash" styleClass="rounded-button ui-button-danger"/>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+        
+        <h:form id="form-ordem">
+            <p:dialog widgetVar="copiaDialog" header="ADICIONAR MATÉRIA" visible="#{exibirRoteiroController.exibirDialogoOrdem}" showEffect="fade" hideEffect="fade" width="690" resizable="true" responsive="true">
+                <p:fragment id="fragment-materia">
+                    <div class="ui-fluid formgrid grid">
+                        <div class="col-5">
+                            <p:outputLabel for="@next" value="Tipo Matéria" styleClass="font-bold "/>
+                            <div class="borderComboBox">
+                                <p:selectOneMenu value="#{exibirRoteiroController.tipoMateria}" filter="true" filterMatchMode="contains">
+                                    <f:selectItem itemLabel="Selecione um tipo" noSelectionOption="true" />
+                                    <f:selectItems value="#{TipoMateriaPesquisa.ALL_ENUM_VALUES}" var="_tipoMateria" itemLabel="#{_tipoMateria.descricao}" itemValue="#{_tipoMateria.sequencia}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <p:outputLabel for="@next" value="Número Matéria" styleClass="font-bold "/>
+                            <p:inputNumber value="#{exibirRoteiroController.numeroMateria}" minValue="1" decimalPlaces="0" thousandSeparator="" styleClass="w-full" />
+                        </div>
+                        <div class="col-3">
+                            <p:outputLabel for="@next" value="Ano Matéria" styleClass="font-bold "/>
+                            <!--<p:inputNumber value="# {exibirRoteiroController.anoMateria}" minValue="1" decimalPlaces="0" thousandSeparator="" styleClass="w-full" />-->
+                            <div class="borderComboBox">
+                                <p:selectOneMenu value="#{exibirRoteiroController.anoMateria}" filter="true" filterMatchMode="contains">
+                                    <f:selectItems value="#{exibirRoteiroController.anos}" var="_ano" itemLabel="#{_ano}" itemValue="#{_ano}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-1 mt-4">
+                            <p:commandButton action="#{exibirRoteiroController.pesquisarMateria()}" process="fragment-materia" update="form-ordem" icon="pi pi-search">
+                                <p:tooltip for="@parent" value="Pesquisar Matéria" />
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:fragment>
+                
+                <p:divider />
+                
+                <div class="ui-fluid formgrid grid">
+                    <div class="col-2">
+                        <p:outputLabel for="@next" value="Ordem" styleClass="font-bold "/>
+                        <p:inputNumber value="#{exibirRoteiroController.ordem.ordem}" minValue="1" decimalPlaces="0" thousandSeparator="" styleClass="w-full" required="true" requiredMessage="Campo obrigatório">
+                            <f:convertNumber />
+                        </p:inputNumber>
+                    </div>
+                    <div class="col-10">
+                        <p:outputLabel for="@next" value="Nome matéria" styleClass="font-bold "/>
+                        <p:inputText value="#{exibirRoteiroController.ordem.materia}" styleClass="w-full" required="true" requiredMessage="Campo obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Autor" styleClass="font-bold "/>
+                        <p:inputText value="#{exibirRoteiroController.ordem.autor}" styleClass="w-full" required="true" requiredMessage="Campo obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Tipo Autor" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.tipoAutor}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione o tipo do autor" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.tiposAutores}" var="_tipoAutores" itemLabel="#{_tipoAutores.nome}" itemValue="#{_tipoAutores.nome}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Turno Votação" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.turnoVotacao}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um turno de votação" noSelectionOption="true" />
+                                <f:selectItems value="#{TurnoVotacao.ALL_ENUM_VALUES}" var="_turnoVotacao" itemLabel="#{_turnoVotacao.descricao}" itemValue="#{_turnoVotacao}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Status Matéria" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.statusMateria}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.statusMaterias}" var="_statusMateria" itemLabel="#{_statusMateria.nome}" itemValue="#{_statusMateria}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <p:outputLabel for="@next" value="Ementa" styleClass="font-bold "/>
+                        <p:inputTextarea value="#{exibirRoteiroController.ordem.ementa}" styleClass="w-full" required="true" requiredMessage="Campo obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Status Tramitação" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.statusTramitacao}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.statusTramitacoes}" var="_statusTramitacao" itemLabel="#{_statusTramitacao.nome}" itemValue="#{_statusTramitacao}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Parecer Procuradoria" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.parecerProcuradoria}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione o parecer" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.pareceres}" var="_parecer" itemLabel="#{_parecer.nome}" itemValue="#{_parecer}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{exibirRoteiroController.setExibirDialogoOrdem(false)}" update="form-ordem" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{exibirRoteiroController.adicionarOrdem()}" update="form form-ordem" />
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="form-ordem-edicao">
+            <p:dialog widgetVar="copiaDialog" header="EDITAR MATÉRIA" visible="#{exibirRoteiroController.exibirDialogoOrdemEdicao}" showEffect="fade" hideEffect="fade" width="690" resizable="true" responsive="true">
+                <p:fragment id="fragment-materia-edicao">
+                    <div class="ui-fluid formgrid grid">
+                        <div class="col-11">
+                            <p:outputLabel for="@next" value="Selecione a Matéria" styleClass="font-bold "/>
+                            <div class="borderComboBox mt-2">
+                                <p:selectOneMenu value="#{exibirRoteiroController.ordem}" converter="entityConverter" filter="true" filterMatchMode="contains" required="true">
+                                    <f:selectItem itemLabel="-- Matérias --" noSelectionOption="true" />
+                                    <f:selectItems value="#{exibirRoteiroController.roteiro.getOrdemDia().getOrdens()}" var="_ordem" itemLabel="ITEM #{_ordem.ordem} - #{_ordem.materia}" itemValue="#{_ordem}" />
+                                </p:selectOneMenu>
+                            </div>
+                        </div>
+                        <div class="col-1 mt-5">
+                            <p:commandButton action="#{exibirRoteiroController.selecionarOrdem()}" process="fragment-materia-edicao" update="form-ordem-edicao" icon="pi pi-download">
+                                <p:tooltip for="@parent" value="Carregar Matéria" />
+                            </p:commandButton>
+                        </div>
+                    </div>
+                </p:fragment>
+                
+                <p:divider />
+                
+                <div class="ui-fluid formgrid grid">
+                    <div class="col-2">
+                        <p:outputLabel for="@next" value="Ordem" styleClass="font-bold "/>
+                        <p:inputNumber value="#{exibirRoteiroController.ordem.ordem}" disabled="true" minValue="1" decimalPlaces="0" thousandSeparator="" styleClass="w-full" required="true" requiredMessage="Campo Ordem obrigatório">
+                            <f:convertNumber />
+                        </p:inputNumber>
+                    </div>
+                    <div class="col-10">
+                        <p:outputLabel for="@next" value="Nome matéria" styleClass="font-bold "/>
+                        <p:inputText value="#{exibirRoteiroController.ordem.materia}" styleClass="w-full" required="true" requiredMessage="Campo Nome Matéria obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Autor" styleClass="font-bold "/>
+                        <p:inputText value="#{exibirRoteiroController.ordem.autor}" styleClass="w-full" required="true" requiredMessage="Campo Autor obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Tipo Autor" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.tipoAutor}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione o tipo do autor" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.tiposAutores}" var="_tipoAutores" itemLabel="#{_tipoAutores.nome}" itemValue="#{_tipoAutores.nome}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Turno Votação" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.turnoVotacao}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um turno de votação" noSelectionOption="true" />
+                                <f:selectItems value="#{TurnoVotacao.ALL_ENUM_VALUES}" var="_turnoVotacao" itemLabel="#{_turnoVotacao.descricao}" itemValue="#{_turnoVotacao}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Status Matéria" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.statusMateria}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.statusMaterias}" var="_statusMateria" itemLabel="#{_statusMateria.nome}" itemValue="#{_statusMateria}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <p:outputLabel for="@next" value="Ementa" styleClass="font-bold "/>
+                        <p:inputTextarea value="#{exibirRoteiroController.ordem.ementa}" styleClass="w-full" required="true" requiredMessage="Campo Ementa obrigatório"/>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Status Tramitação" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.statusTramitacao}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione um status" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.statusTramitacoes}" var="_statusTramitacao" itemLabel="#{_statusTramitacao.nome}" itemValue="#{_statusTramitacao}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="col-6 mt-3">
+                        <p:outputLabel for="@next" value="Parecer Procuradoria" styleClass="font-bold "/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.ordem.parecerProcuradoria}" converter="entityConverter" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Selecione o parecer" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.pareceres}" var="_parecer" itemLabel="#{_parecer.nome}" itemValue="#{_parecer}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{exibirRoteiroController.cancelarEdicaoOrdem()}" update="form-ordem-edicao" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{exibirRoteiroController.salvarRoteiro('ORDEM')}" update="form form-ordem-edicao" />
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="form-remover-ordem">
+            <p:dialog widgetVar="copiaDialog" header="REMOVER MATÉRIA" visible="#{exibirRoteiroController.exibirDialogoRemoverOrdem}" showEffect="fade" hideEffect="fade" width="400" resizable="true" responsive="true">
+                <div class="ui-fluid formgrid grid">
+                    <div class="col-12">
+                        <p:outputLabel for="@next" value="Item que deseja remover" styleClass="font-bold block mb-2"/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.item}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Campo Item obrigatório">
+                                <f:selectItem itemLabel="-- Matérias --" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.roteiro.getOrdemDia().getOrdens()}" var="_ordem" itemLabel="ITEM #{_ordem.ordem} - #{_ordem.materia}" itemValue="#{_ordem.ordem}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{exibirRoteiroController.setExibirDialogoRemoverOrdem(false)}" update="form-remover-ordem" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Remover" action="#{exibirRoteiroController.removerOrdem()}" update="form form-ordem" styleClass="ui-button-danger"/>
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="form-adicionar-etiqueta">
+            <p:dialog widgetVar="copiaDialog" header="ADICIONAR ETIQUETA" visible="#{exibirRoteiroController.exibirDialogoAdicionarEtiqueta}" position="top" showEffect="fade" hideEffect="fade" width="400" resizable="true" responsive="true">
+                <div class="ui-fluid formgrid grid">
+                    <div class="col-12">
+                        <p:outputLabel for="@next" value="Item" styleClass="font-bold block mb-2"/>
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.item}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Campo Item obrigatório">
+                                <f:selectItem itemLabel="-- Matérias --" noSelectionOption="true" />
+                                <f:selectItems value="#{exibirRoteiroController.roteiro.getOrdemDia().getOrdens()}" var="_ordem" itemLabel="ITEM #{_ordem.ordem} - #{_ordem.materia}" itemValue="#{_ordem.ordem}" />
+                                <p:ajax listener="#{exibirRoteiroController.carregarEtiquetas}" update="tbl-etiquetas" />
+                            </p:selectOneMenu>
+                        </div>
+                        
+                        <p:outputLabel for="@next" value="Etiqueta" styleClass="font-bold block mb-2 mt-4"/>
+                        <p:inputText id="ipt-etiqueta" value="#{exibirRoteiroController.etiqueta}" styleClass="w-full" required="true" requiredMessage="Campo Etiqueta obrigatório"/>
+                    </div>
+                    
+                    <div class="col-12 mt-2">
+                        <div class="borderComboBox">
+                            <p:selectOneMenu value="#{exibirRoteiroController.corEtiqueta}" style="background-color: #{exibirRoteiroController.corEtiqueta}">
+                                <f:selectItem itemLabel="COR PRIMÁRIA" itemValue="bg-primary" />
+                                <f:selectItem itemLabel="AZUL" itemValue="bg-blue-500" />
+                                <f:selectItem itemLabel="VERDE" itemValue="bg-green-500" />
+                                <f:selectItem itemLabel="VERMELHO" itemValue="bg-red-500" />
+                                <f:selectItem itemLabel="AMARELO" itemValue="bg-yellow-500" />
+                                <f:selectItem itemLabel="LARANJA" itemValue="bg-orange-500" />
+                                <f:selectItem itemLabel="ROSA" itemValue="bg-pink-500" />
+                                <f:selectItem itemLabel="ROXO" itemValue="bg-purple-500" />
+                            </p:selectOneMenu>
+                        </div>
+                        <p:commandButton value="Adicionar" action="#{exibirRoteiroController.adicionarEtiqueta}" update="ipt-etiqueta tbl-etiquetas" styleClass="mt-2" />
+                    </div>
+                    
+                    <div class="col-12 mt-3">
+                        <p:outputLabel for="@next" value="Etiquetas" styleClass="font-bold block mb-2"/>
+                        <p:dataTable id="tbl-etiquetas" var="etiquetas_var" value="#{exibirRoteiroController.etiquetas}" reflow="true" emptyMessage=" ">
+                            <p:column styleClass="col-10">
+                                <p:chip label="#{etiquetas_var.texto}"  styleClass="mr-2 #{etiquetas_var.cor} text-white"/>
+                            </p:column>
+                            <p:column styleClass="col-2">
+                                <p:commandButton action="#{exibirRoteiroController.removerEtiqueta()}" update="@form" icon="pi pi-trash" styleClass="rounded-button ui-button-outlined ui-button-danger mt-1 mb-1">
+                                    <p:tooltip for="@parent" value="Remover" />
+                                    <f:setPropertyActionListener value="#{etiquetas_var.texto}" target="#{exibirRoteiroController.etiqueta}" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </div>
+                </div>
+                
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{exibirRoteiroController.setExibirDialogoAdicionarEtiqueta(false)}" update="form-adicionar-etiqueta" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{exibirRoteiroController.salvarEtiqueta()}" update="form form-adicionar-etiqueta" />
+                </div>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

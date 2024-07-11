@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faces-config metadata-complete="false" version="2.3"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_3.xsd">
+    
+    <name>SupLeg</name>
+    
+    <component>
+        <component-type>org.primefaces.component.SapphireMenu</component-type>
+        <component-class>org.primefaces.sapphire.component.SapphireMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.SapphireMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.sapphire.component.SapphireMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    
+</faces-config>

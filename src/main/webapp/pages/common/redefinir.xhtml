@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/common/redefinir">Redefinir senha</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="growl" showDetail="false" globalOnly="true" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Redefinir senha</h5>
+                        <div class="ui-fluid formgrid grid">
+
+                            <!-- MENSAGENS PRIMEIRA LINHA -->
+                            <div class="col-12 md:col-4">
+                                <p:message for="idSenhaUsuario" showSummary="true" showDetail="false"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="idSenha2Usuario" showSummary="true" showDetail="false"/>
+                            </div>
+                            <div class="col-12 md:col-4"/>
+
+                            <!-- PRIMEIRA LINHA -->
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Digite a nova senha" />
+                                <p:password id="idSenhaUsuario" value="#{startController.senha1}" required="true" styleClass="w-full" requiredMessage="Campo obrigatório" >
+                                        <p:tooltip value="A senha deve ter no mínimo 8 dígitos, com pelo menos um número, uma letra maiúscula e uma letra minúscula" for="idSenhaUsuario"/>
+                                        <f:validateLength minimum="8" />
+                                    </p:password>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Digite novamente senha" />
+                                <p:password id="idSenha2Usuario" value="#{startController.senha2}" required="true" styleClass="w-full" requiredMessage="Campo obrigatório"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:commandButton value="Confirmar"  action="#{startController.trocarSenha}" ajax="false" styleClass="mt-5" icon="ui-icon-check"/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

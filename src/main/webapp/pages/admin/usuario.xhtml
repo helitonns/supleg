@@ -1,0 +1,147 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/admin/usuario">Usuários</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" globalOnly="true" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Cadastro de usuários</h5>
+                        <div class="ui-fluid formgrid grid">
+
+                            <!-- MENSAGENS PRIMEIRA LINHA -->
+                            <div class="col-12 md:col-4">
+                                <p:message for="idNome" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="idMatriculaUsuario" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="status" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+
+                            <!-- PRIMEIRA LINHA -->
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="idNome" value="Digite o nome completo do usuário" />
+                                <p:inputText id="idNome" value="#{usuarioController.usuario.nome}" converter="upper" required="true" requiredMessage="Campo obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="idMatriculaUsuario" value="Digite a matrícula do usuário" />
+                                <p:inputText id="idMatriculaUsuario" value="#{usuarioController.usuario.matricula}" required="true" requiredMessage="Campo obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Status" />
+                                <p:selectOneButton id="status" value="#{usuarioController.usuario.status}" >
+                                    <f:selectItem itemLabel="Ativo" itemValue="#{true}" />
+                                    <f:selectItem itemLabel="Inativo" itemValue="#{false}" />
+                                </p:selectOneButton>
+                            </div>
+
+                            <!-- MENSAGENS SEGUNDA LINHA -->
+                            <div class="col-12 md:col-4">
+                                <p:message for="idLogin" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="idSenhaUsuario" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:message for="idTipoUsuario" showSummary="true" showDetail="false" style="width: 100%"/>
+                            </div>
+
+
+                            <!-- SEGUNDA LINHA -->
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Digite o login do usuário" />
+                                <p:inputText id="idLogin" value="#{usuarioController.usuario.login}" required="true" requiredMessage="Campo obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Senha" />
+                                <p:password id="idSenhaUsuario" value="#{usuarioController.senha}" required="true" requiredMessage="Campo obrigatório!">
+                                    <f:validateLength minimum="8"/>
+                                    <p:tooltip for="idSenhaUsuario" value="A senha deve ter no mínimo 8 dígitos, 1 letra maiúscula, 1 letra minúscula e 1 número"/>
+                                </p:password>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Tipo Usuário" />
+                                <p:selectOneMenu id="idTipoUsuario" label="Tipo Usuário" value="#{usuarioController.usuario.tipo}" required="true" autoWidth="true" filter="true" requiredMessage="Campo obrigatório!">
+                                    <f:selectItem itemLabel="Selecione o tipo de usuário" noSelectionOption="true"/>
+                                    <f:selectItems value="#{usuarioController.tipoUsuario.lista}" var="tu" itemLabel="#{tu}" itemValue="#{tu}" />                            
+                                </p:selectOneMenu>
+                            </div>
+
+                            <!-- TERCERA LINHA -->
+                            <div class="col-12 md:col-4 md:col-offset-4">
+                                <p:commandButton value="Salvar" action="#{usuarioController.salvarUsuario}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-4">
+                                <p:commandButton value="Cancelar" action="#{usuarioController.cancelarUsuario()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        <h:form id="form2">
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Usuários cadastrados</h5>
+                        <div class="ui-fluid formgrid grid">
+                            
+                            <div class="col-12 mt-5">
+                                <p:dataTable id="tbl_usuarios" var="usuario_var"  value="#{usuarioController.usuarios}" showGridlines="false"  reflow="true" rowKey="#{usuario_var.id}"  paginator="true" paginatorPosition="bottom"   rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-5rem">
+                                        <h:outputText value="#{usuario_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Usuário"   sortBy="#{usuario_var.login}" filterBy="#{usuario_var.login}" >
+                                        <h:outputText value="#{usuario_var.login}" />
+                                    </p:column>
+                                    <p:column headerText="Privilégio" sortBy="#{usuario_var.tipo}" filterBy="#{usuario_var.tipo}" >
+                                        <h:outputText value="#{usuario_var.tipo}" />
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{usuario_var.status ? 'ATIVO' : 'INATIVO'}" />
+                                    </p:column>
+                                    <p:column  headerText="Ação" styleClass="w-10rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-editar" styleClass="rounded-button"  icon="pi pi-pencil" ajax="true" update="form" >
+                                                    <f:setPropertyActionListener value="#{usuario_var}" target="#{usuarioController.usuario}"/>
+                                                    <p:tooltip value="Editar" for="btn-editar" />
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-excluir" action="#{usuarioController.removerUsuario()}" update="form form2:tbl_usuarios" styleClass="rounded-button ui-button-danger" icon="pi pi-trash">
+                                                    <p:tooltip value="Excluir" for="btn-excluir" />
+                                                    <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                                    <f:setPropertyActionListener value="#{usuario_var}" target="#{usuarioController.usuario}"/>
+                                                </p:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

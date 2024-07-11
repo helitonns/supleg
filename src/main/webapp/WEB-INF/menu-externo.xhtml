@@ -1,0 +1,22 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:sm="http://primefaces.org/sapphire">
+
+    <div id="layout-menu-container" class="layout-menu-container">
+        <div class="layout-menu-wrapper">
+            <h:form id="menuform">
+                <div class="flex justify-content-end">
+                    <sm:menu widgetVar="sapphireMenuWidget">
+                        <p:menuitem value="Início" icon="pi pi-home" outcome="/roteiro"/>
+                        <p:menuitem value="Login" icon="pi pi-fw pi-user" outcome="/login" />
+                    </sm:menu>
+                </div>
+            </h:form>
+        </div>
+    </div>
+
+</ui:composition>

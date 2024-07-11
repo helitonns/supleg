@@ -1,0 +1,1 @@
+ALTER TABLE sup_leg.link ALTER COLUMN url TYPE VARCHAR(400);

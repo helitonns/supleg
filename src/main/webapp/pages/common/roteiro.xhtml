@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/common/roteiro">Roteiro</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="flex justify-content-between">
+                            <h5 class="text-primary">Roteiro</h5>
+                            
+                            <div class="flex mb-1">
+                                <h5 class="text-primary">Data: </h5>
+                                <p:datePicker id="month" style="margin-left: 16px; padding: 0; border: none;" locale="pt_BR" view="month" value="#{roteiroController.dataCorrente}" pattern="MM/yyyy" yearNavigator="true" yearRange="2024:2030">
+                                    <p:ajax update="form form-tabela" listener="#{roteiroController.listarRoteiros()}" />
+                                </p:datePicker>
+                            </div>
+                        </div>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:schedule id="schedule" 
+                                            value="#{roteiroController.eventModel}" 
+                                            widgetVar="myschedule" 
+                                            timeZone="#{roteiroController.serverTimeZone}" 
+                                            clientTimeZone="#{roteiroController.serverTimeZone}"
+                                            initialDate="#{roteiroController.dataCorrente}"
+                                            leftHeaderTemplate=""
+                                            rightHeaderTemplate=""
+                                            locale="pt_BR"
+                                            >
+                                    <p:ajax event="dateSelect" listener="#{roteiroController.onDateSelect}" update="eventDetails "/>
+                                    <p:ajax event="eventSelect" listener="#{roteiroController.onEventSelect}" update="eventDetails form-painel-roteiros:dlg-painel-roteiro"/>
+                                    <p:ajax event="eventMove" listener="#{roteiroController.onEventMove}" update="form:growl"/>
+                                </p:schedule>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <p:dialog id="eventDetails" widgetVar="eventDialog" header="Roteiro" visible="#{roteiroController.eventDetails}" showEffect="fade" hideEffect="fade" width="450" resizable="true" responsive="true">
+                <h:panelGrid  columns="2" cellpadding="7">
+                    <p:outputLabel for="@next" value="Data sessão" styleClass="font-bold "/>
+                    <p:datePicker pattern="dd/MM/yyyy" value="#{roteiroController.dataSessao}"  styleClass="w-full" required="true" requiredMessage="Campo Data sessão obrigatório!"/>
+                    
+                    <p:outputLabel for="@next" value="Nome" styleClass="font-bold "/>
+                    <p:inputText value="#{roteiroController.roteiro.nome}" styleClass="w-full" required="true" requiredMessage="Campo None obrigatório"/>
+                    
+                    <p:outputLabel for="@next" value="Modelo Roteiro" styleClass="font-bold"/>
+                    <p:selectOneMenu value="#{roteiroController.modeloRoteiro}" converter="entityConverter" styleClass="w-full" required="true" requiredMessage="Campo Modelo Roteiro obrigatório!">
+                        <f:selectItem itemLabel="Selecione o modelo do roteiro" noSelectionOption="true" />
+                        <f:selectItems value="#{roteiroController.modeloRoteiros}" var="_roteiro" itemLabel="#{_roteiro.nome}" itemValue="#{_roteiro}" />
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{roteiroController.cancelar()}" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{roteiroController.salvar()}" />
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="form-painel-roteiros">
+            <p:dialog id="dlg-painel-roteiro" header="#{roteiroController.event.title}" styleClass="ui-dialog-titlebar"  modal="true" fitViewport="true" minHeight="150" width="450" responsive="true" resizable="true"  visible="#{roteiroController.exibirPainelRoteiro}" closable="false">
+                <p:divider styleClass="mt-0" />
+                <div class="grid pb-0">
+                    <div class="col-6">
+                        <p:linkButton href="/#{startController.sistema}/pages/common/exibir-roteiro.xhtml?roteiro=#{roteiroController.event.description}" value="Roteiro do Presidente" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:linkButton href="/#{startController.sistema}/pages/common/exibir-roteiro-secretario.xhtml?roteiro=#{roteiroController.event.description}" value="Roteiro do 1° Secretário" styleClass="w-full"/>
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Baixar Roteiro" action="#{roteiroController.baixarRoteiro()}" ajax="false" icon="pi pi-print" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Baixar Ordem do Dia" action="#{roteiroController.baixarOrdens()}" ajax="false" icon="pi pi-print" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Renomear" action="#{roteiroController.preRenomear()}" update="form-renomeia:idRenomeia form-painel-roteiros:dlg-painel-roteiro" rendered="#{!startController.operador}" icon="pi pi-pencil" styleClass="w-full" />
+                    </div>
+                    
+                    <div class="col-6">
+                        <p:commandButton value="Atualizar" action="#{roteiroController.atualizar()}" rendered="#{!startController.operador}" icon="pi pi-refresh" styleClass="w-full" />
+                    </div>
+                    
+                    <div class="col-6">
+                        <p:commandButton value="Copiar" action="#{roteiroController.preCopiar()}" update="form-copia:idCopia form-painel-roteiros:dlg-painel-roteiro" icon="pi pi-copy" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Excluir" action="#{roteiroController.excluir()}" rendered="#{!startController.operador}" icon="pi pi-trash" styleClass="w-full ui-button-danger">
+                            <p:confirm type="popup" header="Confirmação" message="Você realmente deseja excluir o item?" icon="pi pi-info-circle"/>
+                        </p:commandButton>
+                    </div>
+                </div>
+
+                <f:facet name="footer" class="mt-0 pt-0">
+                    <p:commandButton value="Fechar" action="#{roteiroController.setExibirPainelRoteiro(false)}"  update="dlg-painel-roteiro" style="width: 5rem" />
+                </f:facet>
+            </p:dialog>
+            <p:confirmPopup global="true">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirm-popup-yes" />
+            </p:confirmPopup>
+        </h:form>
+        
+        <h:form id="form-copia">
+            <p:dialog id="idCopia" widgetVar="copiaDialog" header="Copiar Roteiro" visible="#{roteiroController.exibirDialogoCopia}" showEffect="fade" hideEffect="fade" width="450" resizable="true" responsive="true">
+                <div class="col-12">
+                    <p:outputLabel for="@next" value="Nome do roteiro" styleClass="font-bold "/>
+                    <p:inputText value="#{roteiroController.nomeCopiaRoteiro}" styleClass="w-full" required="true" requiredMessage="Campo obrigatório"/>
+                </div>
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{roteiroController.cancelar}" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{roteiroController.copiar()}" />
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        <h:form id="form-renomeia">
+            <p:dialog id="idRenomeia" widgetVar="renomeiaDialog" header="Renomear Roteiro" visible="#{roteiroController.exibirDialogoRenomeia}" showEffect="fade" hideEffect="fade" width="450" resizable="true" responsive="true">
+                <div class="col-12">
+                    <p:outputLabel for="@next" value="Nome do roteiro" styleClass="font-bold "/>
+                    <p:inputText value="#{roteiroController.nomeCopiaRoteiro}" styleClass="w-full" required="true" requiredMessage="Campo obrigatório"/>
+                </div>
+                <div class="flex justify-content-between mt-3">
+                    <p:commandButton value="Cancelar" action="#{roteiroController.cancelar}" immediate="true" styleClass="font-bold ui-button-outlined" />
+                    <p:commandButton value="Salvar" action="#{roteiroController.renomear()}" />
+                </div>
+            </p:dialog>
+        </h:form>
+        
+        
+        <h:form id="form-tabela">
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Roteiros cadastrados</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="roteiro_var" value="#{roteiroController.roteiros}" reflow="true" rowKey="#{roteiro_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Data" styleClass="col-2">
+                                        <h:outputText value="#{roteiro_var.dataSessao}">
+                                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Sessão" styleClass="col-2">
+                                        <h:outputText value="#{roteiro_var.nome}"/>
+                                    </p:column>
+                                    <p:column headerText="Modelo Relatório" styleClass="col-2">
+                                        <h:outputText value="#{roteiro_var.modeloRoteiro.nome}"/>
+                                    </p:column>
+                                    <p:column headerText="Ordem do dia" styleClass="col-6">
+                                        <h:outputText value="#{roteiro_var.modeloRoteiro.possuiOrdemDiaBoolean ? roteiro_var.ordemDia.materiasOrdemDia : ''}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

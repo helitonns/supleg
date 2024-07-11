@@ -1,0 +1,162 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link>Mesa Diretora</p:link>
+        </li>
+        <li> <i class="pi pi-angle-right"/> </li>
+        <li>
+            <p:link outcome="/pages/user/modelo-mesa">Modelo Mesa</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Mesa Diretora</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="Presiente" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.presidente}" converter="entityConverter" required="true" requiredMessage="Campo Presidente obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="presidente" itemLabel="#{presidente.nome}" itemValue="#{presidente}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="1° Vice-Presiente" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.vicePresidente1}" converter="entityConverter" required="true" requiredMessage="Campo 1° Vice-Presiente obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="vicePresidente1" itemLabel="#{vicePresidente1.nome}" itemValue="#{vicePresidente1}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="2° Vice-Presiente" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.vicePresidente2}" converter="entityConverter" required="true" requiredMessage="Campo 2° Vice-Presiente obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="vicePresidente2" itemLabel="#{vicePresidente2.nome}" itemValue="#{vicePresidente2}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="3° Vice-Presiente" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.vicePresidente3}" converter="entityConverter" required="true" requiredMessage="Campo 3° Vice-Presiente obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="vicePresidente3" itemLabel="#{vicePresidente3.nome}" itemValue="#{vicePresidente3}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="1° Secretário" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.secretario1}" converter="entityConverter" required="true" requiredMessage="Campo 1° Secretário obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="secretario1" itemLabel="#{secretario1.nome}" itemValue="#{secretario1}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="2° Secretário" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.secretario2}" converter="entityConverter" required="true" requiredMessage="Campo 2° Secretário obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="secretario2" itemLabel="#{secretario2.nome}" itemValue="#{secretario2}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="3° Secretário" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.secretario3}" converter="entityConverter" required="true" requiredMessage="Campo 3° Secretário obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="secretario3" itemLabel="#{secretario3.nome}" itemValue="#{secretario3}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="4° Secretário" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.secretario4}" converter="entityConverter" required="true" requiredMessage="Campo 4° Secretário obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="secretario4" itemLabel="#{secretario4.nome}" itemValue="#{secretario4}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="Corregedor" />
+                                <p:selectOneMenu value="#{mesaModeloController.mesa.corregedor}" converter="entityConverter" required="true" requiredMessage="Campo Carregedor obrigatório">
+                                    <f:selectItem itemLabel="Selecione um parlamentar" noSelectionOption="true"/>
+                                    <f:selectItems value="#{mesaModeloController.parlamentares}" var="corregedor" itemLabel="#{corregedor.nome}" itemValue="#{corregedor}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="field col-12 md:col-3">
+                                <p:outputLabel for="@next" value="Status" />
+                                <p:selectOneButton value="#{mesaModeloController.mesa.status}">
+                                    <f:selectItem itemLabel="Ativa" itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="Inativa" itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </div>
+                            <div class="col-12 md:col-3 mt-5">
+                                <p:commandButton value="Salvar" action="#{mesaModeloController.salvar()}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-3 mt-5">
+                                <p:commandButton value="Cancelar" action="#{mesaModeloController.cancelar()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>   
+        <h:form>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Mesas cadastradas</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="mesa_var" value="#{mesaModeloController.mesas}" reflow="true" rowKey="#{mesa_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-3rem">
+                                        <h:outputText value="#{mesa_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Presidente" styleClass="min-w-max">
+                                        <h:outputText value="#{mesa_var.presidente.nome}" />
+                                    </p:column>
+                                    <p:column headerText="1V - Presidente" styleClass="min-w-max">
+                                        <h:outputText value="#{mesa_var.vicePresidente1.nome}" />
+                                    </p:column>
+                                    <p:column headerText="2V - Presidente" styleClass="min-w-max">
+                                        <h:outputText value="#{mesa_var.vicePresidente2.nome}" />
+                                    </p:column>
+                                    <p:column headerText="3V - Presidente" styleClass="min-w-max">
+                                        <h:outputText value="#{mesa_var.vicePresidente3.nome}" />
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{mesa_var.status ? 'Ativa' : 'Inativa'}" />
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-10rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-editar" styleClass="rounded-button" icon="pi pi-pencil" ajax="true" update="form" >
+                                                    <f:setPropertyActionListener value="#{mesa_var}" target="#{mesaModeloController.mesa}"/>
+                                                    <p:tooltip value="Editar" for="btn-editar" />
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-excluir" action="#{mesaModeloController.excluir()}" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                                    <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                                    <f:setPropertyActionListener value="#{mesa_var}" target="#{mesaModeloController.mesa}"/>
+                                                    <p:tooltip value="Excluir" for="btn-excluir" />
+                                                </p:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

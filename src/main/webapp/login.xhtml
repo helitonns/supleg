@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>..: Superintendência Legislativa ::..</title>
+        <h:outputScript name="js/layout.js" library="sapphire-layout" />
+        <h:outputScript name="js/ripple.js" library="sapphire-layout" />
+        <link rel="shortcut icon" href="#{facesContext.externalContext.requestContextPath}/resources/imagens/favicon.ico" type="image/x-icon" />
+    </h:head>
+
+    <h:body styleClass="login-body #{guestPreferences.topBar}" >
+        <h:form>
+            <p:growl id="growl" showDetail="false" />
+            <div class="login-panel ui-fluid">
+                <div class="login-panel-header">
+                    <p:graphicImage name="logo.png" library="imagens" styleClass="#{guestPreferences.topBar}" style="border-radius: 100%"/>
+                </div>
+
+                <div class="login-panel-content">
+                    <div class="grid">
+                        <div class="col-12">
+                            <!--<h1>ALRR</h1>-->
+                            <!--<h2>Digite suas credenciais para acessar o sistema</h2>-->
+                        </div>
+                        <div class="col-12">
+                            <span class="ui-float-label">
+                                <p:inputText value="#{startController.login}" autocomplete="off" />
+                                <p:outputLabel for="@previous" value="Usuário" />
+                            </span>
+                        </div>
+                        <div class="col-12 mt-5">
+                            <span class="ui-float-label">
+                                <p:password value="#{startController.senha}" autocomplete="off" />
+                                <p:outputLabel for="@previous" value="Senha" />
+                            </span>
+                        </div>
+
+                        <div class="col-12 mt-5">
+                            <h:panelGrid columns="2" styleClass="w-full">
+                                <p:commandButton value="Entrar" icon="pi pi-fw pi-sign-in" action="#{startController.logar()}" />
+                                <p:commandButton value="Início" icon="pi pi-fw pi-arrow-left" action="/roteiro.xhtml?redirect=true" styleClass="ui-button-secondary" ajax="false"/>
+                            </h:panelGrid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </h:form>
+        <h:outputStylesheet name="css/primeicons.css" library="sapphire-layout"/>
+        <h:outputStylesheet name="css/primeflex.min.css" library="sapphire-layout"/>
+        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="sapphire-layout" />
+        <h:outputStylesheet name="css/cor.css" library="sapphire-layout" />
+    </h:body>
+
+</html>

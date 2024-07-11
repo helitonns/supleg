@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/user/ordem-dia">Ordem Dia</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Pesquisar Sessão Plenária</h5>
+                        <div class="ui-fluid formgrid grid">
+
+                            <div class="field col-12 md:col-4">
+                                <p:outputLabel for="@next" value="Data sessão" />
+                                <p:datePicker id="dataFim" pattern="dd/MM/yyyy" value="#{ordemDiaController.dataSessao}" required="true" requiredMessage="Campo Data sessão obrigatório!"/>
+                            </div>
+
+                            <div class="col-12 md:col-4 mt-5">
+                                <p:commandButton value="Salvar" action="#{ordemDiaController.salvarOrdemDia()}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-4 mt-5">
+                                <p:commandButton value="Cancelar" action="#{ordemDiaController.cancelar()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>   
+        <h:form>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Pesquisas cadastradas</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="ordemDia_var" value="#{ordemDiaController.ordens}" reflow="true" rowKey="#{ordemDia_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-3rem">
+                                        <h:outputText value="#{ordemDia_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Data inicial">
+                                        <h:outputText value="#{ordemDia_var.dataSessao}">
+                                            <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Número de matérias">
+                                        <h:outputText value="#{ordemDia_var.ordens.size()}"/>
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-10rem">
+                                        <p:commandButton id="btn-excluir" action="#{ordemDiaController.excluir()}" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                            <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                            <f:setPropertyActionListener value="#{ordemDia_var}" target="#{pesquisaController.pesquisa}"/>
+                                            <p:tooltip value="Excluir" for="btn-excluir" />
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

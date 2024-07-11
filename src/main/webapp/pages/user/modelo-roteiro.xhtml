@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link>Modelo Roteiro</p:link>
+        </li>
+        <li> <i class="pi pi-angle-right"/> </li>
+        <li>
+            <p:link outcome="/pages/user/modelo-roteiro">Modelo Roteiro</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <p:importEnum type="br.leg.rr.al.supleg.enums.PossuiOrdem" var="PossuiOrdem" allSuffix="ALL_ENUM_VALUES"/>
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Roteiro</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="field col-12 md:col-8 md:col-offset-2">
+                                <p:outputLabel for="@next" value="Nome" />
+                                <p:inputText value="#{modeloRoteiroController.modeloRoteiro.nome}" converter="upper" required="true" requiredMessage="Campo Nome obrigatório!"/>
+                            </div>
+                            <div class="field col-12 md:col-8 md:col-offset-2">
+                                <p:outputLabel for="@next" value="Status" />
+                                <p:selectOneButton value="#{modeloRoteiroController.modeloRoteiro.status}">
+                                    <f:selectItem itemLabel="Ativo" itemValue="#{true}"/>
+                                    <f:selectItem itemLabel="Inativo" itemValue="#{false}"/>
+                                </p:selectOneButton>
+                            </div>
+                            <div class="field col-12 md:col-8 md:col-offset-2">
+                                <p:outputLabel for="@next" value="Possui Ordem do Dia?" />
+                                <p:selectOneButton value="#{modeloRoteiroController.modeloRoteiro.possuiOrdemDia}">
+                                    <f:selectItems value="#{PossuiOrdem.ALL_ENUM_VALUES}" var="_possuiOrdem" itemLabel="#{_possuiOrdem.descricao}" itemValue="#{_possuiOrdem}" />
+<!--                                    <f:selectItem itemLabel="Ordem do dia automática" itemValue="1"/>
+                                    <f:selectItem itemLabel="Ordem do dia manual" itemValue="2"/>
+                                    <f:selectItem itemLabel="Não" itemValue="3"/>-->
+                                </p:selectOneButton>
+                            </div>
+                            <div class="col-4 md:col-offset-2 mt-2">
+                                <p:outputLabel for="@next" value="Abetura" />
+                                <p:selectOneMenu value="#{modeloRoteiroController.abertura}" converter="entityConverter" styleClass="mt-2">
+                                    <f:selectItem itemLabel="Selecione uma abertura" noSelectionOption="true"/>
+                                    <f:selectItems value="#{modeloRoteiroController.aberturas}" var="abertura_var" itemLabel="#{abertura_var.nome}" itemValue="#{abertura_var}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-4 mt-2">
+                                <p:outputLabel for="@next" value="Fechamento" />
+                                <p:selectOneMenu value="#{modeloRoteiroController.fechamento}" converter="entityConverter" styleClass="mt-2">
+                                    <f:selectItem itemLabel="Selecione uma abertura" noSelectionOption="true"/>
+                                    <f:selectItems value="#{modeloRoteiroController.fechamentos}" var="fechamento_var" itemLabel="#{fechamento_var.nome}" itemValue="#{fechamento_var}" />
+                                </p:selectOneMenu>
+                            </div>
+                            <div class="col-12 md:col-4 mt-5 md:col-offset-2">
+                                <p:commandButton value="Salvar" action="#{modeloRoteiroController.salvar()}" styleClass="align-self-end" ajax="false" icon="pi pi-fw pi-save"/>
+                            </div>
+                            <div class="col-12 md:col-4 mt-5">
+                                <p:commandButton value="Cancelar" action="#{modeloRoteiroController.cancelar()}" styleClass="align-self-end ui-button-secondary"  icon="pi pi-fw pi-times" immediate="true"  />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+        <h:form>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <h5 class="text-primary">Modelos cadastrados</h5>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:dataTable var="modelo_var" value="#{modeloRoteiroController.modeloRoteiros}" reflow="true" rowKey="#{modelo_var.id}" paginatorPosition="bottom" paginator="true" rows="10" emptyMessage=" ">
+                                    <p:column headerText="Id" styleClass="w-3rem">
+                                        <h:outputText value="#{modelo_var.id}" />
+                                    </p:column>
+                                    <p:column headerText="Nome" styleClass="min-w-max">
+                                        <h:outputText value="#{modelo_var.nome}" />
+                                    </p:column>
+                                    <p:column headerText="Tipo Ordem" styleClass="min-w-max">
+                                        <h:outputText value="#{modelo_var.possuiOrdemDia.descricao}" />
+                                    </p:column>
+                                    <p:column headerText="Status">
+                                        <h:outputText value="#{modelo_var.status ? 'Ativo' : 'Inativo'}" />
+                                    </p:column>
+                                    <p:column headerText="Ação" styleClass="w-10rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-editar" styleClass="rounded-button" icon="pi pi-pencil" ajax="true" update="form" >
+                                                    <f:setPropertyActionListener value="#{modelo_var}" target="#{modeloRoteiroController.modeloRoteiro}"/>
+                                                    <f:setPropertyActionListener value="#{modelo_var.abertura}" target="#{modeloRoteiroController.abertura}"/>
+                                                    <f:setPropertyActionListener value="#{modelo_var.fechamento}" target="#{modeloRoteiroController.fechamento}"/>
+                                                    <p:tooltip value="Editar" for="btn-editar" />
+                                                </p:commandButton>
+                                            </div>
+                                            <div class="col-6">
+                                                <p:commandButton id="btn-excluir" action="#{modeloRoteiroController.excluir()}" icon="pi pi-trash"  styleClass="rounded-button ui-button-danger">
+                                                    <p:confirm header="Exclusão" message="Você tem certeza que desaja excluir o item?" icon="pi pi-exclamation-triangle" />
+                                                    <f:setPropertyActionListener value="#{modelo_var}" target="#{modeloRoteiroController.modeloRoteiro}"/>
+                                                    <p:tooltip value="Excluir" for="btn-excluir" />
+                                                </p:commandButton>
+                                            </div>
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </div>
+                            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-outlined" icon="pi pi-times" />
+                                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                            </p:confirmDialog>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

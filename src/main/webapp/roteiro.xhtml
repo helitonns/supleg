@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template-externo.xhtml">
+
+    <ui:define name="breadcrumb">
+        <li>
+            <p:link outcome="/pages/common/roteiro">Roteiro</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="form">
+            <p:growl id="growl" showDetail="false" />
+            <div class="grid">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="flex justify-content-between">
+                            <h5 class="text-primary">Roteiro</h5>
+                            
+                            <div class="flex mb-1">
+                                <h5 class="text-primary">Data: </h5>
+                                <p:datePicker id="month" style="margin-left: 16px; padding: 0; border: none;" locale="pt_BR" view="month" value="#{roteiroController.dataCorrente}" pattern="MM/yyyy" yearNavigator="true" yearRange="2024:2030">
+                                    <p:ajax update="form" listener="#{roteiroController.listarRoteiros()}" />
+                                </p:datePicker>
+                            </div>
+                        </div>
+                        <div class="ui-fluid formgrid grid">
+                            <div class="col-12">
+                                <p:schedule id="schedule" 
+                                            value="#{roteiroController.eventModel}" 
+                                            widgetVar="myschedule" 
+                                            timeZone="#{roteiroController.serverTimeZone}" 
+                                            clientTimeZone="#{roteiroController.serverTimeZone}"
+                                            initialDate="#{roteiroController.dataCorrente}"
+                                            leftHeaderTemplate=""
+                                            rightHeaderTemplate=""
+                                            locale="pt_BR"
+                                            >
+                                    <p:ajax event="dateSelect" listener="#{roteiroController.onDateSelect}" update=""/>
+                                    <p:ajax event="eventSelect" listener="#{roteiroController.onEventSelect}" update="form-painel-roteiros:dlg-painel-roteiro"/>
+                                    <p:ajax event="eventMove" listener="#{roteiroController.onEventMove}" update="@all"/>
+                                </p:schedule>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+        <h:form id="form-painel-roteiros">
+            <p:dialog id="dlg-painel-roteiro" header="#{roteiroController.event.title}" styleClass="ui-dialog-titlebar"  modal="true" fitViewport="true" minHeight="150" width="450" responsive="true" resizable="true"  visible="#{roteiroController.exibirPainelRoteiro}" closable="false">
+                <p:divider styleClass="mt-0" />
+                <div class="grid pb-0">
+                    <div class="col-6">
+                        <p:linkButton href="/#{startController.sistema}/exibir-roteiro.xhtml?roteiro=#{roteiroController.event.description}" value="Roteiro do Presidente" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:linkButton href="/#{startController.sistema}/exibir-roteiro-secretario.xhtml?roteiro=#{roteiroController.event.description}" value="Roteiro do 1° Secretário" styleClass="w-full"/>
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Baixar Roteiro" action="#{roteiroController.baixarRoteiro()}" ajax="false" icon="pi pi-print" styleClass="w-full" />
+                    </div>
+                    <div class="col-6">
+                        <p:commandButton value="Baixar Ordem do Dia" action="#{roteiroController.baixarOrdens()}" ajax="false" icon="pi pi-print" styleClass="w-full" />
+                    </div>
+                </div>
+
+                <f:facet name="footer" class="mt-0 pt-0">
+                    <p:commandButton value="Fechar" action="#{roteiroController.setExibirPainelRoteiro(false)}" immediate="true" update="dlg-painel-roteiro" style="width: 5rem" />
+                </f:facet>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
