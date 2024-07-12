@@ -64,23 +64,24 @@
             const params = new URLSearchParams(window.location.search);
             const idParametro = params.get('roteiro');
             console.log("ID DA URL: " + idParametro);
+            var websocket = new WebSocket("wss://ws.ifelse.io");
             //var websocket = new WebSocket("ws://localhost:8080/supleg/roteiroWebSocket?idRoteiro=" + idParametro);
-            var websocket = new WebSocket("ws://webapps.homol.al.rr.leg.br/supleg/roteiroWebSocket?idRoteiro=" + idParametro);
+            //var websocket = new WebSocket("ws://webapps.al.rr.leg.br/supleg/roteiroWebSocket?idRoteiro=" + idParametro);
             //var websocket = new WebSocket("ws://webapps.al.rr.leg.br:8080/supleg/roteiroWebSocket?idRoteiro=" + idParametro);
-
+            
             websocket.onopen = function(event) {
-                console.log("WebSocket connection established.");
+                console.log("Conexão estabelecida com sucesso.");
             };
 
             websocket.onmessage = function(event) {
                 var idRoteiro = event.data;
                 atualizarRoteiro(idRoteiro);
             };
-
+            
             function atualizarRoteiro(idRoteiro) {
-                console.log("Excutou o método de atualizar roteiro do lado do usuário");
+                console.log("Excutou o método de atualizar roteiro do lado do usuário em JS");
                 //window.location.href = '/supleg/exibir-roteiro.xhtml?roteiro=' + idRoteiro;
-                window.location.href = 'https://webapps.homol.al.rr.leg.br/supleg/exibir-roteiro.xhtml?roteiro=' + idRoteiro;
+                //window.location.href = 'https://webapps.homol.al.rr.leg.br/supleg/exibir-roteiro.xhtml?roteiro=' + idRoteiro;
                 //window.location.href = 'https://webapps.al.rr.leg.br/supleg/exibir-roteiro.xhtml?roteiro=' + idRoteiro;
             }
             
